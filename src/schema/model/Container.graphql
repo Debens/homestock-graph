@@ -1,0 +1,5 @@
+type Container {
+    name: String
+    created: Date
+    memberships: [Membership]
+}

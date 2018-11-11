@@ -1,0 +1,4 @@
+type Tokens {
+    accessToken: String!
+    expiresIn: String!
+}

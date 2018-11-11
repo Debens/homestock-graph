@@ -1,0 +1,7 @@
+type Membership {
+    id: String
+    name: String
+    created: Date
+    user: User
+    container: Container
+}
