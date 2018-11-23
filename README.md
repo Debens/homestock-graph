@@ -5,5 +5,5 @@ GraphQL API for accessing [Homestock](https://github.com/Debens/homestock) 📦
 ## Running
 
 ```
-yarn && yarn start
+$ yarn && yarn start
 ```
