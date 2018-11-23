@@ -1,0 +1,33 @@
+{
+    "rootDir": ".",
+    "globals": {
+        "verbose": true,
+        "ts-jest": {
+            "diagnostics": {
+                "warnOnly": true
+            }
+        }
+    },
+    "collectCoverageFrom": ["<rootDir>/src/**/*.{ts,tsx}"],
+    "coverageDirectory": "<rootDir>/coverage",
+    "coveragePathIgnorePatterns": ["/node_modules/", "\\.d\\.ts$"],
+    "coverageThreshold": {
+        "global": {
+            "branches": 90,
+            "functions": 90,
+            "lines": 90,
+            "statements": 90
+        }
+    },
+    "setupFiles": ["<rootDir>/test/set-up.ts"],
+    "testMatch": ["<rootDir>/src/**/?(*.)(spec|test).{ts,tsx,js,jsx}"],
+    "testEnvironment": "node",
+    "testURL": "http://localhost",
+    "transform": {
+        "^.+\\.(ts|tsx)$": "ts-jest",
+        "^.+\\.(js|jsx|mjs)$": "babel-jest"
+    },
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"],
+    "moduleFileExtensions": ["js", "json", "jsx", "mjs", "node", "ts", "tsx"],
+    "preset": "ts-jest/presets/js-with-babel"
+}

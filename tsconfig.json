@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+        "outDir": "./build",
+        "pretty": true,
+        "declaration": false,
+        "noEmitOnError": true,
+
+        // output to ES6 so can tree shake modules (can transpile to ES5 via babel later)
+        "target": "es6",
+        "lib": ["es6", "es7", "esnext", "esnext.asynciterable"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+
+        // keep comments in case we need to tree shake / preserve licences
+        "removeComments": false,
+
+        // this shrinks the compiled code (as shares helpers rather than inlining)
+        "noEmitHelpers": true,
+        "importHelpers": true,
+
+        // strict settings but disable some
+        "strict": true,
+        "strictNullChecks": false, // TODO - should probably turn this off but makes very verbose and negates some JS trickery... discuss
+        "noUnusedLocals": false, // we often need these for telling webpack about dependencies that arent necessarily used in the TS code itself - ie assets
+        "noUnusedParameters": false, // TODO - this has been a pain in past for reasons I cant recall, should try enabling and test with a meaningful codebase
+
+        // some other code style flags
+        "noFallthroughCasesInSwitch": true,
+        "allowUnreachableCode": false,
+        "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
+
+        // typeorm decorators
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    },
+    "include": ["./src/**/*.d.ts", "./src/**/*.tsx", "./src/**/*.ts"],
+    "exclude": ["lib", "node_modules", "./src/**/*.spec.*"]
+}
