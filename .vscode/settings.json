@@ -1,0 +1,52 @@
+{
+    "editor.formatOnSave": true,
+    "autoimport.autoComplete": true,
+    "autoimport.doubleQuotes": false,
+    "autoimport.filesToScan": "**/*.{ts,tsx,d.ts}",
+    "autoimport.showNotifications": false,
+    "autoimport.spaceBetweenBraces": true,
+    "autoimport.useSemiColon": true,
+    "importSorter.generalConfiguration.exclude": [],
+    "importSorter.generalConfiguration.sortOnBeforeSave": true,
+    "importSorter.importStringConfiguration.hasSemicolon": true,
+    "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 100,
+    "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "words",
+    "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 1,
+    "importSorter.importStringConfiguration.quoteMark": "single",
+    "importSorter.importStringConfiguration.spacingPerImportExpression.afterComma": 1,
+    "importSorter.importStringConfiguration.spacingPerImportExpression.afterStartingBracket": 1,
+    "importSorter.importStringConfiguration.spacingPerImportExpression.beforeComma": 0,
+    "importSorter.importStringConfiguration.spacingPerImportExpression.beforeEndingBracket": 1,
+    "importSorter.importStringConfiguration.tabSize": 4,
+    "importSorter.importStringConfiguration.tabType": "space",
+    "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 1,
+    "importSorter.sortConfiguration.customOrderingRules.defaultOrderLevel": 40,
+    "importSorter.sortConfiguration.customOrderingRules.rules": [
+        {
+            "regex": "^@angular",
+            "orderLevel": 0
+        },
+        {
+            "regex": "^[@]",
+            "orderLevel": 20
+        },
+        // external modules - use default level
+        // ...
+        // local aliases
+        {
+            "regex": "^[__]",
+            "orderLevel": 100
+        },
+        // relative local files
+        {
+            "regex": "^[.]",
+            "orderLevel": 200
+        }
+    ],
+    "importSorter.sortConfiguration.importMembers.direction": "asc",
+    "importSorter.sortConfiguration.importMembers.order": "caseInsensitive",
+    "importSorter.sortConfiguration.importPaths.direction": "asc",
+    "importSorter.sortConfiguration.importPaths.order": "caseInsensitive",
+    "importSorter.sortConfiguration.joinImportPaths": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
+}
