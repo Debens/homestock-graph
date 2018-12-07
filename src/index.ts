@@ -25,7 +25,7 @@ async function bootstrap() {
 
         // build TypeGraphQL executable schema
         const schema = await TypeGraphQL.buildSchema({
-            resolvers: [__dirname + '/resolvers/!(*.spec.ts)'],
+            resolvers: [__dirname + '/resolvers/*.ts!(*.spec.ts)'],
             authChecker,
         });
 
