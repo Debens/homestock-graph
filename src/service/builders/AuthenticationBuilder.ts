@@ -4,7 +4,7 @@ import { Authentication } from '../../entity/Authentication';
 
 @Service()
 export class AuthenticationBuilder {
-    constructor(private auth: Authentication = new Authentication()) {}
+    constructor(private readonly auth: Authentication = new Authentication()) {}
 
     create(): Authentication {
         return this.auth;

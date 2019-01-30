@@ -21,24 +21,24 @@ import { NewUser, UserQuery } from './types/User';
 
 @Resolver(of => User)
 export class UserResolver {
-    @InjectRepository(User) private usersRepository: Repository<User>;
+    @InjectRepository(User) private readonly usersRepository: Repository<User>;
 
     @InjectRepository(Membership)
-    private membershipsRepository: Repository<Membership>;
+    private readonly membershipsRepository: Repository<Membership>;
 
     @InjectRepository(Product)
-    private productRepository: Repository<Product>;
+    private readonly productRepository: Repository<Product>;
 
     @Inject()
-    private builder: UserBuilder;
+    private readonly builder: UserBuilder;
 
     @Query(returns => User, { nullable: true })
-    user(@Args() query: UserQuery): Promise<User> {
+    async user(@Args() query: UserQuery): Promise<User> {
         return this.usersRepository.findOne(query);
     }
 
     @Query(returns => [User])
-    users(): Promise<User[]> {
+    async users(): Promise<User[]> {
         return this.usersRepository.find();
     }
 
@@ -49,7 +49,7 @@ export class UserResolver {
     }
 
     @Mutation(returns => User)
-    createUser(@Arg('user') newUser: NewUser): Promise<User> {
+    async createUser(@Arg('user') newUser: NewUser): Promise<User> {
         const user = this.builder
             .setFirstName(newUser.firstName)
             .setLastName(newUser.lastName)
@@ -63,7 +63,10 @@ export class UserResolver {
 
     @FieldResolver(type => [Membership], { nullable: true })
     @Authorized()
-    memberships(@Ctx('user') current: User, @Root() user: User): Promise<Membership[]> {
+    async memberships(
+        @Ctx('user') current: User,
+        @Root() user: User,
+    ): Promise<Membership[]> {
         if (current.id !== user.id) {
             return null;
         }
@@ -73,7 +76,7 @@ export class UserResolver {
 
     @FieldResolver(type => [Product], { nullable: true })
     @Authorized()
-    products(@Ctx('user') current: User, @Root() user: User): Promise<Product[]> {
+    async products(@Ctx('user') current: User, @Root() user: User): Promise<Product[]> {
         if (current.id !== user.id) {
             return null;
         }

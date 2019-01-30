@@ -22,20 +22,20 @@ import { NewContainer } from './types/Container';
 @Resolver(of => Container)
 export class ContainerResolver {
     @InjectRepository(Container)
-    private containerRepository: Repository<Container>;
+    private readonly containerRepository: Repository<Container>;
 
     @InjectRepository(Membership)
-    private membershipRepository: Repository<Membership>;
+    private readonly membershipRepository: Repository<Membership>;
 
     @InjectRepository(Stock)
-    private stockRepository: Repository<Stock>;
+    private readonly stockRepository: Repository<Stock>;
 
     @Inject()
-    private builder: ContainerBuilder;
+    private readonly builder: ContainerBuilder;
 
     @Query(returns => Container, { nullable: true })
     @Authorized()
-    container(@Arg('id') id: string): Promise<Container> {
+    async container(@Arg('id') id: string): Promise<Container> {
         return this.containerRepository.findOne({
             id,
         });
@@ -43,7 +43,7 @@ export class ContainerResolver {
 
     @Query(returns => [Container])
     @Authorized()
-    containers(@Ctx('user') current: User): Promise<Container[]> {
+    async containers(@Ctx('user') current: User): Promise<Container[]> {
         return this.containerRepository
             .createQueryBuilder('container')
             .innerJoinAndSelect('container.memberships', 'membership')
@@ -57,7 +57,7 @@ export class ContainerResolver {
 
     @Mutation(returns => Container)
     @Authorized()
-    createContainer(
+    async createContainer(
         @Ctx('user') current: User,
         @Arg('container') newContainer: NewContainer,
     ): Promise<Container> {
@@ -70,12 +70,12 @@ export class ContainerResolver {
     }
 
     @FieldResolver(type => [Stock])
-    inventory(@Root() container: Container): Promise<Stock[]> {
+    async inventory(@Root() container: Container): Promise<Stock[]> {
         return this.stockRepository.find({ container });
     }
 
     @FieldResolver(type => [Membership])
-    memberships(@Root() container: Container): Promise<Membership[]> {
+    async memberships(@Root() container: Container): Promise<Membership[]> {
         return this.membershipRepository.find({ container });
     }
 }

@@ -12,16 +12,16 @@ import { NewStock } from './types/Stock';
 @Resolver(of => Stock)
 export class StockResolver {
     @InjectRepository(Stock)
-    private stockRepository: Repository<Stock>;
+    private readonly stockRepository: Repository<Stock>;
 
     @InjectRepository(Product)
-    private productRepository: Repository<Product>;
+    private readonly productRepository: Repository<Product>;
 
     @InjectRepository(Container)
-    private containerRepository: Repository<Container>;
+    private readonly containerRepository: Repository<Container>;
 
     @Inject()
-    private builder: StockBuilder;
+    private readonly builder: StockBuilder;
 
     @Mutation(returns => Stock, { nullable: true })
     async createStock(@Arg('stock') newStock: NewStock): Promise<Stock> {

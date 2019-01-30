@@ -1,4 +1,4 @@
-import { Field, ID, InputType, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import uuid from 'uuid/v1';
 

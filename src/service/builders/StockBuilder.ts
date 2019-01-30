@@ -6,7 +6,7 @@ import { Stock } from '../../entity/Stock';
 
 @Service()
 export class StockBuilder {
-    constructor(private stock: Stock = new Stock()) {}
+    constructor(private readonly stock: Stock = new Stock()) {}
 
     create(): Stock {
         return this.stock;
@@ -20,11 +20,7 @@ export class StockBuilder {
 
     setExpiry(expiry?: Date | string): StockBuilder {
         if (expiry) {
-            if (typeof expiry === 'string') {
-                this.stock.expiry = new Date(expiry);
-            } else {
-                this.stock.expiry = expiry;
-            }
+            this.stock.expiry = typeof expiry === 'string' ? new Date(expiry) : expiry;
         }
 
         return this;

@@ -20,10 +20,10 @@ import { NewProduct } from './types/Product';
 @Resolver(of => Product)
 export class ProductResolver {
     @InjectRepository(Product)
-    private productRepository: Repository<Product>;
+    private readonly productRepository: Repository<Product>;
 
     @Inject()
-    private builder: ProductBuilder;
+    private readonly builder: ProductBuilder;
 
     @Mutation(returns => Product, { nullable: true })
     @Authorized()

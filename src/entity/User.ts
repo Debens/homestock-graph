@@ -12,7 +12,7 @@ import uuid from 'uuid/v1';
 
 import { Authentication } from './Authentication';
 import { Membership } from './Membership';
-import { UserRole } from './model/athorization';
+import { UserRole } from './model/authorization';
 import { Product } from './Product';
 
 @ObjectType()
@@ -55,8 +55,8 @@ export class User {
     products: Product[];
 
     @OneToOne(type => Authentication, auth => auth.user, {
-        nullable: false,
         cascade: true,
+        nullable: false,
     })
     authentication: Authentication;
 

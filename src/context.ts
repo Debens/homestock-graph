@@ -9,15 +9,13 @@ export interface IContext {
     user: User;
 }
 
-interface ContextParams {
+interface IContextParams {
     req: Request;
 }
 
-interface ContextResolver<T> {
-    (paras: ContextParams): T | Promise<T>;
-}
+type IContextResolver<T> = (paras: IContextParams) => T | Promise<T>;
 
-export const resolveContext: ContextResolver<IContext> = async ({ req: request }) => {
+export const resolveContext: IContextResolver<IContext> = async ({ req: request }) => {
     const token: string = (request.headers.authorization || '')
         .replace('Bearer', '')
         .trim();
@@ -26,7 +24,7 @@ export const resolveContext: ContextResolver<IContext> = async ({ req: request }
         const service = Container.get<TokenService>(TokenService.HANDLE);
 
         try {
-            const payload: any = service.verify(token);
+            const payload = service.verify(token);
 
             if (payload.sub) {
                 const user = await getManager().findOne(User, {
@@ -35,6 +33,8 @@ export const resolveContext: ContextResolver<IContext> = async ({ req: request }
 
                 return { user };
             }
-        } catch (_) {}
+        } catch (_) {
+            // Ignore error
+        }
     }
 };

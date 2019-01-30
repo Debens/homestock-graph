@@ -3,6 +3,7 @@ import { ArgsType, Field, InputType } from 'type-graphql';
 import { User } from '../../entity/User';
 
 @ArgsType()
+// tslint:disable:max-classes-per-file
 export class UserQuery implements Partial<User> {
     @Field({ nullable: true })
     id: string;

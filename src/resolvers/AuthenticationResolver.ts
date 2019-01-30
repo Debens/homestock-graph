@@ -10,13 +10,13 @@ import { Credentials, Tokens } from './types/Authentication';
 
 @Resolver()
 export class UserResolver {
-    @InjectRepository(User) private users: Repository<User>;
+    @InjectRepository(User) private readonly users: Repository<User>;
 
     @Inject()
-    private tokens: TokenService;
+    private readonly tokens: TokenService;
 
     @Inject()
-    private authenticator: Authenticator;
+    private readonly authenticator: Authenticator;
 
     @Query(returns => Tokens)
     async login(@Args() credentials: Credentials): Promise<Tokens> {

@@ -15,9 +15,6 @@ import { User } from './User';
 @ObjectType()
 @Entity()
 export class Authentication {
-    @Inject(type => Authenticator)
-    private authenticator: Authenticator;
-
     @Field(type => ID)
     @PrimaryGeneratedColumn()
     id: string;
@@ -31,12 +28,15 @@ export class Authentication {
     salt: string;
 
     @Field(type => User)
-    @OneToOne(type => User, User => User.authentication, {
+    @OneToOne(type => User, user => user.authentication, {
         nullable: false,
         onDelete: 'CASCADE',
     })
     @JoinColumn()
     user: User;
+
+    @Inject(type => Authenticator)
+    private readonly authenticator: Authenticator;
 
     @BeforeInsert()
     hashPassword() {

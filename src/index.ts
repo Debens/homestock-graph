@@ -25,15 +25,15 @@ async function bootstrap() {
 
         // build TypeGraphQL executable schema
         const schema = await TypeGraphQL.buildSchema({
-            resolvers: [__dirname + '/resolvers/*.ts!(*.spec.ts)'],
             authChecker,
+            resolvers: [__dirname + '/resolvers/*.ts!(*.spec.ts)'],
         });
 
         // Create GraphQL server
         const server = new ApolloServer({
-            schema,
-            playground: true,
             context: resolveContext,
+            playground: true,
+            schema,
         });
 
         const app = express();

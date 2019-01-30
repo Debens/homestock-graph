@@ -15,7 +15,7 @@ const DEFAULT_MEMBER_OPTIONS: IMemberOptions = {
 
 @Service()
 export class ContainerBuilder {
-    constructor(private container: Container = new Container()) {}
+    constructor(private readonly container: Container = new Container()) {}
 
     create(): Container {
         return this.container;

@@ -7,7 +7,7 @@ import { User } from '../../entity/User';
 
 @Service()
 export class MembershipBuilder {
-    constructor(private relation: Membership = new Membership()) {}
+    constructor(private readonly relation: Membership = new Membership()) {}
 
     create(): Membership {
         return this.relation;

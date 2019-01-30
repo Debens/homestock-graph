@@ -6,9 +6,11 @@
         "compile:watch": "tsc --watch",
         "start": "nodemon -x ts-node src/index.ts --type-check",
         "test": "jest --config ./jest.config.json",
-        "test:coverage": "yarn test --coverage"
+        "test:coverage": "yarn test --coverage",
+        "lint": "tslint --project tsconfig.json --format stylish"
     },
     "dependencies": {
+        "apollo-server-express": "^2.2.1",
         "crypto": "^1.0.1",
         "express": "^4.16.4",
         "graphql-iso-date": "^3.6.1",
@@ -30,9 +32,8 @@
         "@types/jsonwebtoken": "^8.3.0",
         "@types/node": "^8.0.29",
         "@types/uuid": "^3.4.4",
-        "apollo-server-express": "^2.2.1",
-        "graphql": "^0.13.1",
         "circleci": "^0.3.3",
+        "graphql": "^0.13.1",
         "husky": "^1.1.3",
         "jest": "^23.6.0",
         "lint-staged": "^8.0.4",
@@ -40,10 +41,16 @@
         "prettier": "^1.15.2",
         "ts-jest": "^23.10.5",
         "ts-node": "3.3.0",
+        "tslint": "^5.12.1",
+        "tslint-config-prettier": "^1.17.0",
+        "tslint-sonarts": "^1.9.0",
         "typescript": "^3.1.6"
     },
     "lint-staged": {
-        "*.{ts,js,json}": [
+        "*.{ts,tsx,js}": [
+            "lint"
+        ],
+        "*.{ts,tsx,js,json,md}": [
             "prettier --write",
             "git add"
         ]

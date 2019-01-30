@@ -5,7 +5,7 @@ import { User } from '../../entity/User';
 
 @Service()
 export class ProductBuilder {
-    constructor(private product: Product = new Product()) {}
+    constructor(private readonly product: Product = new Product()) {}
 
     create(): Product {
         return this.product;

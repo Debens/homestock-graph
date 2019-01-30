@@ -9,7 +9,7 @@ import { User } from '../entity/User';
 @Resolver(of => Membership)
 export class MembershipResolver {
     @InjectRepository(Membership)
-    private membershipRepository: Repository<Membership>;
+    private readonly membershipRepository: Repository<Membership>;
 
     @FieldResolver(type => Container)
     async container(@Root() membership: Membership): Promise<Container> {
