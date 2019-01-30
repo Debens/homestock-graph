@@ -1,7 +1,7 @@
 import Container from 'typedi';
 
 import { Authentication } from '../../entity/Authentication';
-import { UserRole } from '../../entity/model/athorization';
+import { UserRole } from '../../entity/model/authorization';
 import { User } from '../../entity/User';
 import { UserBuilder } from './UserBuilder';
 
