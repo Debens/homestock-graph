@@ -7,12 +7,12 @@ module.exports = {
     port: process.env.RDS_PORT,
     synchronize: true,
     logging: 'all',
-    entities: ['src/entity/**/*.ts'],
-    migrations: ['src/migration/**/*.ts'],
-    subscribers: ['src/subscriber/**/*.ts'],
+    entities: ['dist/entity/**/*.js'],
+    migrations: ['dist/migration/**/*.js'],
+    subscribers: ['dist/subscriber/**/*.js'],
     cli: {
-        entitiesDir: 'src/entity',
-        migrationsDir: 'src/migration',
-        subscribersDir: 'src/subscriber',
+        entitiesDir: 'dist/entity',
+        migrationsDir: 'dist/migration',
+        subscribersDir: 'dist/subscriber',
     },
 };

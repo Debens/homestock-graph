@@ -1,9 +1,15 @@
-import { BeforeInsert, Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+    BeforeInsert,
+    Column,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryColumn,
+} from 'typeorm';
 import uuid from 'uuid/v1';
 
 import { Membership } from './Membership';
 import { Stock } from './Stock';
-import { User } from './User';
 
 @Entity()
 export class Container {

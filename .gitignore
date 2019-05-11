@@ -1,5 +1,7 @@
 # Personal
 lib/
+build/
+dist/
 
 # Logs
 logs

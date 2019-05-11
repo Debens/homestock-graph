@@ -8,11 +8,10 @@ export const CURRENT_USER = 'user.current';
 
 bootstrap({
     port: 4000,
-    controllers: [__dirname + '/controller/*.ts'],
+    controllers: [__dirname + '/controller/*'],
     schemas: [__dirname + '/schema/**/*.graphql'],
     cors: true,
     setupContainer: async (container, action) => {
-        console.log('SET UP');
         const authenticator = new Authenticator();
         container.set(Authenticator.Handle, new Authenticator());
 

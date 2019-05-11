@@ -1,7 +1,6 @@
 import { Service } from 'typedi';
 
 import { Container } from '../../entity/Container';
-import { Membership } from '../../entity/Membership';
 import { User } from '../../entity/User';
 import { Role } from '../../utils/membership';
 import { MembershipBuilder } from './MembershipBuider';

@@ -1,0 +1,20 @@
+transpiler:
+    build: .
+    volumes_from:
+        - data
+    command: yarn build:watch
+
+server:
+    build: .
+    volumes_from:
+        - data
+    ports:
+        - '4000:4000'
+    command: yarn start
+
+data:
+    build: .
+    volumes:
+        - .:/usr/src/app
+        - /usr/src/app/dist
+    command: echo 'ok'
