@@ -1,7 +1,17 @@
-# Awesome Project Build with TypeORM
-        
-Steps to run this project:
+# homestock-graph &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg) [![CircleCI](https://circleci.com/gh/Debens/homestock-graph.svg?style=shield&circle-token=d37cf7fc475b7c8c8ba0aadd00205106dcd11ae6)](https://circleci.com/gh/Debens/homestock-graph)
 
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+GraphQL API for accessing [Homestock](https://github.com/Debens/homestock) 📦
+
+## Running
+
+```sh
+yarn
+yarn build
+yarn start
+```
+
+## Devlopment
+
+```sh
+yarn compose
+```

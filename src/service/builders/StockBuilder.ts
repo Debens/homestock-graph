@@ -6,29 +6,21 @@ import { Stock } from '../../entity/Stock';
 
 @Service()
 export class StockBuilder {
-    constructor(private stock: Stock = new Stock()) {}
+    constructor(private readonly stock: Stock = new Stock()) {}
 
     create(): Stock {
         return this.stock;
     }
 
-    setQuantity(amount: number | string = '') {
-        const value = parseInt(amount.toString(), 10);
-
-        if (value >= 0 && value !== null) {
-            this.stock.quantity = value;
-        }
+    setQuantity(amount: number = 1) {
+        this.stock.quantity = amount;
 
         return this;
     }
 
     setExpiry(expiry?: Date | string): StockBuilder {
-        if (!expiry) return;
-
-        if (typeof expiry === 'string') {
-            this.stock.expiry = new Date(expiry);
-        } else {
-            this.stock.expiry = expiry;
+        if (expiry) {
+            this.stock.expiry = typeof expiry === 'string' ? new Date(expiry) : expiry;
         }
 
         return this;

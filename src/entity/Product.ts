@@ -1,17 +1,33 @@
-import { BeforeInsert, Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { Field, ID, InputType, ObjectType } from 'type-graphql';
+import {
+    BeforeInsert,
+    Column,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryColumn,
+} from 'typeorm';
 import uuid from 'uuid/v1';
 
 import { Stock } from './Stock';
 import { User } from './User';
 
+@ObjectType()
 @Entity()
 export class Product {
-    @PrimaryColumn() id: string;
+    @Field(type => ID)
+    @PrimaryColumn()
+    id: string;
 
-    @Column() name: string;
+    @Field()
+    @Column()
+    name: string;
 
-    @Column() created: Date;
+    @Field()
+    @Column()
+    created: Date;
 
+    @Field(type => User, { nullable: true })
     @ManyToOne(type => User, rel => rel.products, {
         nullable: true,
         onDelete: 'SET NULL',

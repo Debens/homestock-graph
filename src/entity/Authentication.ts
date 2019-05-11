@@ -1,43 +1,47 @@
-import crypto from 'crypto';
+import { Field, ID, ObjectType } from 'type-graphql';
+import { Inject } from 'typedi';
 import {
-    BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn
+    BeforeInsert,
+    Column,
+    Entity,
+    JoinColumn,
+    OneToOne,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Authenticator } from '../service/Authenticator';
 import { User } from './User';
 
+@ObjectType()
 @Entity()
 export class Authentication {
-    @PrimaryGeneratedColumn() id: string;
+    @Field(type => ID)
+    @PrimaryGeneratedColumn()
+    id: string;
 
-    @Column() password: string;
+    @Field()
+    @Column()
+    password: string;
 
-    @Column() salt: string;
+    @Field()
+    @Column()
+    salt: string;
 
-    @OneToOne(type => User, User => User.auth, {
+    @Field(type => User)
+    @OneToOne(type => User, user => user.authentication, {
         nullable: false,
         onDelete: 'CASCADE',
     })
     @JoinColumn()
     user: User;
 
+    @Inject(type => Authenticator)
+    private readonly authenticator: Authenticator;
+
     @BeforeInsert()
     hashPassword() {
-        this.salt = this.salt || this.generateSalt();
+        this.salt = this.authenticator.salt();
 
-        this.password = this.hash(this.salt);
-    }
-
-    generateSalt(length: number = 16): string {
-        return crypto
-            .randomBytes(Math.floor(length / 2))
-            .toString('hex')
-            .slice(0, length);
-    }
-
-    hash(salt: string): string {
-        return crypto
-            .createHmac('sha512', salt)
-            .update(this.password)
-            .digest('hex');
+        this.password = this.authenticator.hash(this.password, this.salt);
     }
 }

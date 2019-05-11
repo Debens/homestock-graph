@@ -1,34 +1,17 @@
 import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
-import uuid from 'uuid/v1';
+import { Service } from 'typedi';
+import { getManager } from 'typeorm';
 
+import { Authentication } from '../entity/Authentication';
+import { User } from '../entity/User';
+
+@Service()
 export class Authenticator {
-    static readonly Handle = 'authenticator';
-
-    sign(user: string) {
-        return jwt.sign(
-            {
-                sub: user,
-                token_type: 'access_token',
-                iss: process.env.TOKEN_ISS,
-                jti: uuid(),
-            },
-            process.env.TOKEN_SECRET,
-            {
-                expiresIn: `${process.env.TOKEN_ACCESS_EXPIRES_IN}s`,
-            },
-        );
-    }
-
-    verify(token: string) {
-        return jwt.verify(token, process.env.TOKEN_SECRET);
-    }
-
-    build(user: string) {
-        return {
-            accessToken: this.sign(user),
-            expiresIn: process.env.TOKEN_ACCESS_EXPIRES_IN,
-        };
+    salt(length: number = 16): string {
+        return crypto
+            .randomBytes(Math.floor(length / 2))
+            .toString('hex')
+            .slice(0, length);
     }
 
     hash(password: string, salt: string): string {
@@ -36,5 +19,12 @@ export class Authenticator {
             .createHmac('sha512', salt)
             .update(password)
             .digest('hex');
+    }
+
+    async verify(user: User, password: string): Promise<boolean> {
+        // FIXME: Cannot inject Authentication repository due to circular dependencies
+        const entry = await getManager().findOneOrFail(Authentication, { user });
+
+        return this.hash(password, entry.salt) === entry.password;
     }
 }

@@ -1,13 +1,16 @@
 import { Service } from 'typedi';
 
+import { UserRole } from '../../entity/model/authorization';
 import { User } from '../../entity/User';
 import { AuthenticationBuilder } from './AuthenticationBuilder';
 
 @Service()
 export class UserBuilder {
-    constructor(private user: User = new User()) {}
+    constructor(private readonly user: User = new User()) {}
 
     create() {
+        this.user.role = UserRole.Free;
+
         return this.user;
     }
 
@@ -36,7 +39,9 @@ export class UserBuilder {
     }
 
     setPassword(password: string): UserBuilder {
-        this.user.auth = new AuthenticationBuilder().setPassword(password).create();
+        this.user.authentication = new AuthenticationBuilder()
+            .setPassword(password)
+            .create();
 
         return this;
     }

@@ -1,21 +1,21 @@
 import { Service } from 'typedi';
 
 import { Container } from '../../entity/Container';
+import { MembershipRole } from '../../entity/model/membership';
 import { User } from '../../entity/User';
-import { Role } from '../../utils/membership';
-import { MembershipBuilder } from './MembershipBuider';
+import { MembershipBuilder } from './MembershipBuilder';
 
 export interface IMemberOptions {
-    access?: Role;
+    access?: MembershipRole;
 }
 
 const DEFAULT_MEMBER_OPTIONS: IMemberOptions = {
-    access: Role.Read,
+    access: MembershipRole.Read,
 };
 
 @Service()
 export class ContainerBuilder {
-    constructor(private container: Container = new Container()) {}
+    constructor(private readonly container: Container = new Container()) {}
 
     create(): Container {
         return this.container;
@@ -32,7 +32,7 @@ export class ContainerBuilder {
             .setContainer(this.container)
             .setUser(user)
             .setPending(false)
-            .setRole(Role.Owner)
+            .setRole(MembershipRole.Owner)
             .create();
 
         this.container.memberships = this.container.memberships || [];

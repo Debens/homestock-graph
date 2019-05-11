@@ -1,27 +1,32 @@
-import {
-    BeforeInsert,
-    Column,
-    Entity,
-    ManyToOne,
-    OneToMany,
-    PrimaryColumn,
-} from 'typeorm';
+import { Field, ID, ObjectType } from 'type-graphql';
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import uuid from 'uuid/v1';
 
 import { Membership } from './Membership';
 import { Stock } from './Stock';
 
+@ObjectType()
 @Entity()
 export class Container {
-    @PrimaryColumn() id: string;
+    @Field(type => ID)
+    @PrimaryColumn()
+    id: string;
 
-    @Column() name: string;
+    @Field()
+    @Column()
+    name: string;
 
-    @Column() created: Date;
+    @Field()
+    @Column()
+    created: Date;
 
-    @OneToMany(type => Membership, rel => rel.container)
+    @Field(type => [Membership])
+    @OneToMany(type => Membership, rel => rel.container, {
+        cascade: true,
+    })
     memberships: Membership[];
 
+    @Field(type => [Stock])
     @OneToMany(type => Stock, stock => stock.container)
     inventory: Stock[];
 

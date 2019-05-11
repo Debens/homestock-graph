@@ -1,46 +1,75 @@
-import { getManager } from 'typeorm';
-import { bootstrap } from 'vesper';
+import { ApolloServer } from 'apollo-server-express';
+import express from 'express';
+import 'reflect-metadata';
+import * as TypeGraphQL from 'type-graphql';
+import { Container } from 'typedi';
+import * as TypeORM from 'typeorm';
 
-import { User } from './entity/User';
-import { Authenticator } from './service/Authenticator';
+import { authChecker } from './auth';
+import { resolveContext } from './context';
 
-export const CURRENT_USER = 'user.current';
+// register 3rd party IOC container
+TypeGraphQL.useContainer(Container);
+TypeORM.useContainer(Container);
 
-bootstrap({
-    port: 4000,
-    controllers: [__dirname + '/controller/*'],
-    schemas: [__dirname + '/schema/**/*.graphql'],
-    cors: true,
-    setupContainer: async (container, action) => {
-        const authenticator = new Authenticator();
-        container.set(Authenticator.Handle, new Authenticator());
+async function bootstrap() {
+    try {
+        console.log();
+        console.log('##########################################################');
+        console.log('#####           CONNECTING TO DATABASE               #####');
+        console.log('##########################################################');
+        console.log();
 
-        if (action.request) {
-            const token: string = (action.request.headers.authorization || '')
-                .replace('Bearer', '')
-                .trim();
+        // create TypeORM connection
+        await TypeORM.createConnection();
 
-            if (token) {
-                const payload: any = authenticator.verify(token);
+        console.log();
+        console.log('##########################################################');
+        console.log('########           BUILDING SCHEMA               #########');
+        console.log('##########################################################');
+        console.log();
 
-                const user = await getManager().findOneOrFail(User, payload.sub);
-                action.container.set(CURRENT_USER, user);
-            }
-        }
-    },
-    authorizationChecker: async (roles, action): Promise<void> => {
-        const user = action.container.get<User>(CURRENT_USER);
-        if (!user.id) {
-            throw new Error('Unauthorized');
-        }
-    },
-})
-    .then(() => {
-        console.log(
-            'Your app is up and running on http://localhost:4000. ' +
-                'You can use playground in development mode on http://localhost:4000/playground',
-        );
-    })
-    .catch((error: any) => {
-        console.error(error.stack ? error.stack : error);
-    });
+        // build TypeGraphQL executable schema
+        const schema = await TypeGraphQL.buildSchema({
+            authChecker,
+            resolvers: [__dirname + '/resolvers/*.js!(*.spec.js)'],
+            validate: false,
+        });
+
+        console.log();
+        console.log('##########################################################');
+        console.log('#####               CREATING SERVER                  #####');
+        console.log('##########################################################');
+        console.log();
+
+        // Create GraphQL server
+        const server = new ApolloServer({
+            context: resolveContext,
+            playground: true,
+            schema,
+        });
+
+        const app = express();
+        const path = '*';
+
+        // Apply the GraphQL server middleware
+        server.applyMiddleware({ app, path });
+
+        // Start the server
+
+        console.log();
+        console.log('##########################################################');
+        console.log('#####               STARTING SERVER                  #####');
+        console.log('##########################################################');
+        console.log();
+
+        app.listen({ port: 4000 }, () => {
+            console.log(`🚀 Server ready at http://localhost:4000`);
+            console.log();
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+bootstrap();

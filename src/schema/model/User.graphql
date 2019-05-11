@@ -1,9 +1,0 @@
-type User {
-    id: String
-    firstName: String
-    lastName: String
-    birthday: Date
-    email: String
-    created: Date
-    memberships: [Membership]
-}
