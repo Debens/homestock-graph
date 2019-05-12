@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import { User } from '../entity/User';
-import { Authenticator } from '../service/Authenticator';
+import { hashPassword } from '../service/password';
 import { TokenService } from '../service/TokenService';
 import { Credentials, Tokens } from './types/Authentication';
 
@@ -15,18 +15,21 @@ export class UserResolver {
     @Inject()
     private readonly tokens: TokenService;
 
-    @Inject()
-    private readonly authenticator: Authenticator;
-
     @Query(returns => Tokens)
     async login(@Args() credentials: Credentials): Promise<Tokens> {
-        const user = await this.users.findOne({ email: credentials.email });
+        const user = await this.users.findOne(
+            { email: credentials.email },
+            { relations: ['authentication'] },
+        );
 
         if (!user) {
             throw new Error('Invalid username/password');
         }
 
-        if (!(await this.authenticator.verify(user, credentials.password))) {
+        const { password, salt } = user.authentication;
+        const isValid = hashPassword(credentials.password, salt) === password;
+
+        if (!isValid) {
             throw new Error('Invalid username/password');
         }
 

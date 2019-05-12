@@ -9,7 +9,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Authenticator } from '../service/Authenticator';
+import { createSalt, hashPassword } from '../service/password';
 import { User } from './User';
 
 @ObjectType()
@@ -35,13 +35,9 @@ export class Authentication {
     @JoinColumn()
     user: User;
 
-    @Inject(type => Authenticator)
-    private readonly authenticator: Authenticator;
-
     @BeforeInsert()
     hashPassword() {
-        this.salt = this.authenticator.salt();
-
-        this.password = this.authenticator.hash(this.password, this.salt);
+        this.salt = createSalt();
+        this.password = hashPassword(this.password, this.salt);
     }
 }

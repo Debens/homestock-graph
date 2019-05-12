@@ -1,8 +1,5 @@
 {
     "extends": ["tslint:latest", "tslint-sonarts", "tslint-config-prettier"],
-    "linterOptions": {
-        "exclude": ["test/set-up.ts"]
-    },
     "rules": {
         "await-promise": true,
         "member-access": {
@@ -23,6 +20,7 @@
         "no-shadowed-variable": true,
         "no-submodule-imports": { "options": ["uuid/v1"] },
         "no-var-requires": true,
+        "no-hardcoded-credentials": false,
         "object-literal-sort-keys": true,
         "one-variable-per-declaration": true,
         "prefer-readonly": true,
