@@ -3,23 +3,13 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
-jobs:
-    build:
+executors:
+    docker:
+        environment:
+            IMAGE_NAME: debens/homestock-graph
         docker:
-            - image: circleci/node:8
-        steps:
-            - checkout
-            # Download and cache dependencies
-            - restore_cache:
-                  key: v1-dependencies-{{ checksum "package.json" }}
-            - run: yarn install
-            - save_cache:
-                  key: v1-dependencies-{{ checksum "package.json" }}
-                  paths:
-                      - node_modules
-            - run:
-                  name: Build
-                  command: yarn build
+            - image: circleci/buildpack-deps:stretch
+jobs:
     test:
         docker:
             - image: circleci/node:8
@@ -37,9 +27,47 @@ jobs:
                   name: Test
                   # TODO: yarn test:coverage
                   command: yarn test
+    build:
+        executor: docker
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                  name: Build Docker image
+                  command: docker build -t $IMAGE_NAME:latest .
+            - run:
+                  name: Archive Docker image
+                  command: docker save -o image.tar $IMAGE_NAME
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - ./image.tar
+    publish:
+        executor: docker
+        steps:
+            - attach_workspace:
+                  at: /tmp/workspace
+            - setup_remote_docker
+            - run:
+                  name: Load archived Docker image
+                  command: docker load -i /tmp/workspace/image.tar
+            - run:
+                  name: Publish Docker Image to Docker Hub
+                  command: |
+                      echo "$DOCKER_HUB_PASS" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+                      docker push $IMAGE_NAME:latest
 workflows:
     version: 2
     default:
         jobs:
-            - build
             - test
+            - build:
+                  filters:
+                      branches:
+                          only: master
+            - publish:
+                  requires:
+                      - build
+                  filters:
+                      branches:
+                          only: master
