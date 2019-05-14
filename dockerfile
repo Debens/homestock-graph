@@ -1,5 +1,4 @@
 # Install dependencies
-# TODO: dev vs prod
 FROM node:10-alpine AS dev
 
 WORKDIR /usr/src/app
@@ -19,6 +18,11 @@ RUN yarn build
 
 # Run js
 FROM dev AS prod
+
+ARG NODE_ENV=production
+ENV NODE_ENV ${NODE_ENV}
+
+RUN yarn
 
 COPY --from=build /usr/src/app/dist dist/
 COPY ormconfig.js ./

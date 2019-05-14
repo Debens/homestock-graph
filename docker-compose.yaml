@@ -4,17 +4,16 @@ services:
         build:
             context: .
             target: dev
-        volumes:
+        volumes: &app
             - .:/usr/src/app/
-        command: yarn build:watch
+        command: yarn build:watch --preserveWatchOutput
     server:
         build:
             context: .
             target: dev
         depends_on:
             - transpiler
-        volumes:
-            - .:/usr/src/app/
+        volumes: *app
         ports:
             - '4000:4000'
         command: yarn start

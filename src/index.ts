@@ -1,5 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
+import depthLimit from 'graphql-depth-limit';
 import 'reflect-metadata';
 import * as TypeGraphQL from 'type-graphql';
 import { Container } from 'typedi';
@@ -43,10 +44,12 @@ async function bootstrap() {
         console.log();
 
         // Create GraphQL server
+        const queryDepthLimit = parseInt(process.env.QUERY_DEPTH_LIMIT, 10) || 10;
         const server = new ApolloServer({
             context: resolveContext,
-            playground: true,
+            playground: process.env.NODE_ENV !== 'production',
             schema,
+            validationRules: [depthLimit(queryDepthLimit)],
         });
 
         const app = express();
