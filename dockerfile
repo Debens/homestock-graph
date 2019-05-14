@@ -8,7 +8,7 @@ EXPOSE 4000
 
 RUN yarn
 
-# Build dist -- PROD only
+# Build dist
 FROM dev AS build
 
 COPY src src/
@@ -22,7 +22,8 @@ FROM dev AS prod
 ARG NODE_ENV=production
 ENV NODE_ENV ${NODE_ENV}
 
-RUN yarn
+# prune dev dependencies
+RUN yarn 
 
 COPY --from=build /usr/src/app/dist dist/
 COPY ormconfig.js ./
