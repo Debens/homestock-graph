@@ -7,7 +7,7 @@
         "build:image": "docker build --target prod -t homestock-graph:latest .",
         "test": "jest --config ./jest.config.json",
         "test:coverage": "yarn test --coverage",
-        "start": "nodemon dist/index.js",
+        "start": "nodemon dist/index.js --delay 1s",
         "start:prod": "node dist/index.js",
         "start:image": "docker run -d -p 4000:4000 --env-file=.env --name=homestock-graph homestock-graph",
         "compose": "yarn compose:clean && docker-compose up",
