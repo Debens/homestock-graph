@@ -4,7 +4,7 @@
 #
 version: 2.1
 orbs:
-    aws-cli: circleci/aws-cli@0.1.13
+    aws-ecs: circleci/aws-ecs@0.0.3
 executors:
     docker:
         environment:
@@ -107,7 +107,7 @@ workflows:
                           only: master
             - aws-ecs/deploy-service-update:
                   requires:
-                      - aws-ecr/build_and_push_image
+                      - publish-latest
                   family: '${AWS_SERVICE_NAME}-service'
                   cluster-name: '${AWS_CUSTERM_NAME}-cluster'
                   container-image-name-updates: 'container=${AWS_SERVICE_NAME}-service,tag=${CIRCLE_SHA1}'
