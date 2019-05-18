@@ -68,9 +68,9 @@ jobs:
                   aws-access-key-id: $AWS_ACCESS_KEY_ID
                   aws-region: $AWS_REGION
             - aws-ecs/update-service:
-                  family: '${AWS_SERVICE_NAME}-service'
-                  cluster-name: '${AWS_CUSTERM_NAME}-cluster'
-                  container-image-name-updates: 'container=${AWS_SERVICE_NAME}-service,tag=stable'
+                  family: '${AWS_SERVICE_NAME}'
+                  cluster-name: '${AWS_CUSTERM_NAME}'
+                  container-image-name-updates: 'container=debens/homestock-graph,tag=stable'
     publish-tag:
         executor: docker
         steps:
