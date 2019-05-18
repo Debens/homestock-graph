@@ -66,8 +66,9 @@ async function bootstrap() {
         console.log('##########################################################');
         console.log();
 
-        app.listen({ port: 4000 }, () => {
-            console.log(`🚀 Server ready at http://localhost:4000`);
+        const port = process.env.PORT || 4000;
+        app.listen({ port }, () => {
+            console.log(`🚀 Server ready at http://localhost:${port}`);
             console.log();
         });
     } catch (err) {
