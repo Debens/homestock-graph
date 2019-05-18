@@ -4,7 +4,7 @@
 #
 version: 2.1
 orbs:
-    aws-ecs: circleci/aws-ecs@0.0.3
+    aws-cli: circleci/aws-cli@0.1.1
 executors:
     docker:
         environment:
@@ -66,11 +66,10 @@ jobs:
             - aws-cli/install
             - aws-cli/configure:
                   aws-access-key-id: $AWS_ACCESS_KEY_ID
+                  aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
                   aws-region: $AWS_REGION
-            - aws-ecs/update-service:
-                  family: '${AWS_SERVICE_NAME}'
-                  cluster-name: '${AWS_CUSTERM_NAME}'
-                  container-image-name-updates: 'container=debens/homestock-graph,tag=latest'
+            - run: aws ecs update-service --cluster $AWS_CLUSER_NAME --service $AWS_SERVICE_NAME --force-new-deployment
+
     publish-tag:
         executor: docker
         steps:
@@ -105,12 +104,12 @@ workflows:
                   filters:
                       branches:
                           only: master
-            - aws-ecs/deploy-service-update:
+            - deploy-latest:
                   requires:
                       - publish-latest
-                  family: '${AWS_SERVICE_NAME}-service'
-                  cluster-name: '${AWS_CUSTERM_NAME}-cluster'
-                  container-image-name-updates: 'container=${AWS_SERVICE_NAME}-service,tag=${CIRCLE_SHA1}'
+                  filters:
+                      branches:
+                          only: master
     build-tags:
         jobs:
             - build:
