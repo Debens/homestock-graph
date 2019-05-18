@@ -9,10 +9,6 @@ import * as TypeORM from 'typeorm';
 import { authChecker } from './auth';
 import { resolveContext } from './context';
 
-// register 3rd party IOC container
-TypeGraphQL.useContainer(Container);
-TypeORM.useContainer(Container);
-
 async function bootstrap() {
     try {
         console.log();
@@ -22,6 +18,7 @@ async function bootstrap() {
         console.log();
 
         // create TypeORM connection
+        TypeORM.useContainer(Container);
         await TypeORM.createConnection();
 
         console.log();
@@ -33,6 +30,7 @@ async function bootstrap() {
         // build TypeGraphQL executable schema
         const schema = await TypeGraphQL.buildSchema({
             authChecker,
+            container: Container,
             resolvers: [__dirname + '/resolvers/*.js!(*.spec.js)'],
             validate: false,
         });
