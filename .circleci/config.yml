@@ -105,12 +105,12 @@ workflows:
                   filters:
                       branches:
                           only: master
-            - deploy-latest:
+            - aws-ecs/deploy-service-update:
                   requires:
-                      - publish-latest
-                  filters:
-                      branches:
-                          only: master
+                      - aws-ecr/build_and_push_image
+                  family: '${AWS_SERVICE_NAME}-service'
+                  cluster-name: '${AWS_CUSTERM_NAME}-cluster'
+                  container-image-name-updates: 'container=${AWS_SERVICE_NAME}-service,tag=${CIRCLE_SHA1}'
     build-tags:
         jobs:
             - build:
