@@ -70,7 +70,7 @@ jobs:
             - aws-ecs/update-service:
                   family: '${AWS_SERVICE_NAME}'
                   cluster-name: '${AWS_CUSTERM_NAME}'
-                  container-image-name-updates: 'container=debens/homestock-graph,tag=stable'
+                  container-image-name-updates: 'container=debens/homestock-graph,tag=latest'
     publish-tag:
         executor: docker
         steps:
