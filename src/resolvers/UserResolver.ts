@@ -14,9 +14,11 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import { Membership } from '../entity/Membership';
+import { UserRole } from '../entity/model/authorization';
 import { Product } from '../entity/Product';
 import { User } from '../entity/User';
 import { UserBuilder } from '../service/builders/UserBuilder';
+import { DeleteResult } from './types/Delete';
 import { NewUser, UserQuery } from './types/User';
 
 @Resolver(of => User)
@@ -48,6 +50,12 @@ export class UserResolver {
         return current;
     }
 
+    @Mutation(returns => DeleteResult)
+    @Authorized()
+    async delete(@Ctx('user') current: User) {
+        return this.usersRepository.delete(current);
+    }
+
     @Mutation(returns => User)
     async createUser(@Arg('user') newUser: NewUser): Promise<User> {
         const user = this.builder
@@ -59,6 +67,12 @@ export class UserResolver {
             .create();
 
         return this.usersRepository.save(user);
+    }
+
+    @Mutation(returns => DeleteResult)
+    @Authorized(UserRole.Admin)
+    async deleteUser(@Arg('id') id: string) {
+        return this.usersRepository.delete({ id });
     }
 
     @FieldResolver(type => [Membership], { nullable: true })
