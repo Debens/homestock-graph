@@ -2,7 +2,7 @@
 import { ArgsType, Field, ObjectType } from 'type-graphql';
 
 @ArgsType()
-export class Credentials {
+export class LoginPayload {
     @Field()
     email: string;
 

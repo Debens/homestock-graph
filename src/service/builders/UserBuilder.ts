@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 
 import { UserRole } from '../../entity/model/authorization';
 import { User } from '../../entity/User';
-import { AuthenticationBuilder } from './AuthenticationBuilder';
+import { CredentialsBuilder } from './CredentialsBuilder';
 
 @Service()
 export class UserBuilder {
@@ -39,9 +39,7 @@ export class UserBuilder {
     }
 
     setPassword(password: string): UserBuilder {
-        this.user.authentication = new AuthenticationBuilder()
-            .setPassword(password)
-            .create();
+        this.user.credentials = new CredentialsBuilder().setPassword(password).create();
 
         return this;
     }

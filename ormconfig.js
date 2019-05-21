@@ -5,7 +5,7 @@ module.exports = {
     username: process.env.RDS_USERNAME,
     password: process.env.RDS_PASSWORD,
     port: process.env.RDS_PORT,
-    // synchronize: true,
+    synchronize: true,
     logger: 'advanced-console',
     logging: 'all',
     entities: ['dist/entity/!(*.spec.js)'],

@@ -1,34 +1,34 @@
 import InjectionContainer from 'typedi';
 
-import { Authentication } from '../../entity/Authentication';
-import { AuthenticationBuilder } from './AuthenticationBuilder';
+import { Credential } from '../../entity/Credentials';
+import { CredentialsBuilder } from './CredentialsBuilder';
 
-describe('AuthenticationBuilder', () => {
-    let builder: AuthenticationBuilder;
+describe('CredentialsBuilder', () => {
+    let builder: CredentialsBuilder;
     beforeEach(() => {
-        builder = new AuthenticationBuilder();
+        builder = new CredentialsBuilder();
     });
 
     it('should be a typedi service', () => {
-        expect(InjectionContainer.get(AuthenticationBuilder)).toBeInstanceOf(
-            AuthenticationBuilder,
+        expect(InjectionContainer.get(CredentialsBuilder)).toBeInstanceOf(
+            CredentialsBuilder,
         );
     });
 
     describe('when calling create', () => {
-        let result: Authentication;
+        let result: Credential;
         beforeEach(() => {
             result = builder.create();
         });
 
-        it('then should return a Authentication', () => {
-            expect(result).toBeInstanceOf(Authentication);
+        it('then should return a Credentials', () => {
+            expect(result).toBeInstanceOf(Credential);
         });
     });
 
     describe('when calling setPassword', () => {
         const password = 'Abcd123';
-        let result: AuthenticationBuilder;
+        let result: CredentialsBuilder;
         beforeEach(() => {
             result = builder.setPassword(password);
         });
@@ -38,16 +38,16 @@ describe('AuthenticationBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: Authentication;
+            let result: Credential;
             beforeEach(() => {
                 result = builder.create();
             });
 
-            it('then should return a Authentication', () => {
-                expect(result).toBeInstanceOf(Authentication);
+            it('then should return a Credentials', () => {
+                expect(result).toBeInstanceOf(Credential);
             });
 
-            it('then should set the Authentications password', () => {
+            it('then should set the Credentialss password', () => {
                 expect(result.password).toBe(password);
             });
         });

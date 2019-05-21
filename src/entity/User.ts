@@ -10,10 +10,11 @@ import {
 } from 'typeorm';
 import uuid from 'uuid/v1';
 
-import { Authentication } from './Authentication';
+import { Credential } from './Credentials';
 import { Membership } from './Membership';
 import { UserRole } from './model/authorization';
 import { Product } from './Product';
+import { Session } from './Session';
 
 @ObjectType()
 @Entity()
@@ -54,11 +55,18 @@ export class User {
     @OneToMany(type => Product, rel => rel.creator)
     products: Product[];
 
-    @OneToOne(type => Authentication, auth => auth.user, {
+    @Field(type => Credential)
+    @OneToOne(type => Credential, credential => credential.user, {
         cascade: true,
         nullable: false,
     })
-    authentication: Authentication;
+    credentials: Credential;
+
+    @Field(type => [Session])
+    @OneToMany(type => Session, session => session.user, {
+        cascade: true,
+    })
+    sessions: Session[];
 
     @BeforeInsert()
     beforeInset() {

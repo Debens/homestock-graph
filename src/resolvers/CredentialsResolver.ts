@@ -6,7 +6,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { User } from '../entity/User';
 import { hashPassword } from '../service/password';
 import { TokenService } from '../service/TokenService';
-import { Credentials, Tokens } from './types/Authentication';
+import { LoginPayload, Tokens } from './types/Authentication';
 
 @Resolver()
 export class UserResolver {
@@ -16,17 +16,18 @@ export class UserResolver {
     private readonly tokens: TokenService;
 
     @Query(returns => Tokens)
-    async login(@Args() credentials: Credentials): Promise<Tokens> {
+    async login(@Args() credentials: LoginPayload): Promise<Tokens> {
+        // TODO: switch to session based tokens
         const user = await this.users.findOne(
             { email: credentials.email },
-            { relations: ['authentication'] },
+            { relations: ['credentials'] },
         );
 
         if (!user) {
             throw new Error('Invalid username/password');
         }
 
-        const { password, salt } = user.authentication;
+        const { password, salt } = user.credentials;
         const isValid = hashPassword(credentials.password, salt) === password;
 
         if (!isValid) {

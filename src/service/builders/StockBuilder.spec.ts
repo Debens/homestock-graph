@@ -1,7 +1,7 @@
 import InjectionContainer from 'typedi';
 
-import { Authentication } from '../../entity/Authentication';
 import { Container } from '../../entity/Container';
+import { Credential } from '../../entity/Credentials';
 import { Product } from '../../entity/Product';
 import { Stock } from '../../entity/Stock';
 import { StockBuilder } from './StockBuilder';

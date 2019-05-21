@@ -1,6 +1,6 @@
 import Container from 'typedi';
 
-import { Authentication } from '../../entity/Authentication';
+import { Credential } from '../../entity/Credentials';
 import { UserRole } from '../../entity/model/authorization';
 import { User } from '../../entity/User';
 import { UserBuilder } from './UserBuilder';
@@ -159,12 +159,12 @@ describe('UserBuilder', () => {
                 expect(result).toBeInstanceOf(User);
             });
 
-            it('then should create an authentication context for the user', () => {
-                expect(result.authentication).toBeInstanceOf(Authentication);
+            it('then should create an credentials context for the user', () => {
+                expect(result.credentials).toBeInstanceOf(Credential);
             });
 
-            it('then should attach the password to the authentication context', () => {
-                expect(result.authentication.password).toBe(password);
+            it('then should attach the password to the credentials context', () => {
+                expect(result.credentials.password).toBe(password);
             });
         });
     });

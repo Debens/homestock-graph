@@ -1,3 +1,4 @@
+import { GraphQLDate } from 'graphql-iso-date';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Inject } from 'typedi';
 import {
@@ -5,6 +6,7 @@ import {
     Column,
     Entity,
     JoinColumn,
+    OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -14,21 +16,21 @@ import { User } from './User';
 
 @ObjectType()
 @Entity()
-export class Authentication {
+export class Session {
     @Field(type => ID)
     @PrimaryGeneratedColumn()
     id: string;
 
-    @Field()
-    @Column()
-    password: string;
+    @Field(type => GraphQLDate)
+    @Column({ type: 'date' })
+    created: Date;
 
-    @Field()
-    @Column()
-    salt: string;
+    @Field(type => GraphQLDate)
+    @Column({ type: 'date' })
+    expiry: Date;
 
     @Field(type => User)
-    @OneToOne(type => User, user => user.authentication, {
+    @OneToMany(type => User, user => user.sessions, {
         nullable: false,
         onDelete: 'CASCADE',
     })
@@ -37,7 +39,6 @@ export class Authentication {
 
     @BeforeInsert()
     hashPassword() {
-        this.salt = createSalt();
-        this.password = hashPassword(this.password, this.salt);
+        this.created = new Date();
     }
 }
