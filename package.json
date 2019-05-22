@@ -1,6 +1,7 @@
 {
     "name": "homestock-graph",
     "version": "0.0.1",
+    "license": "MIT",
     "scripts": {
         "build": "tsc -p tsconfig.build.json",
         "build:watch": "yarn build -w",

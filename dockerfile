@@ -12,7 +12,7 @@ RUN yarn
 FROM dev AS build
 
 COPY src src/
-COPY tsconfig.json ./
+COPY tsconfig.* ./
 
 RUN yarn build
 
