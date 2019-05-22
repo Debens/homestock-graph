@@ -1,3 +1,4 @@
+import { GraphQLDateTime } from 'graphql-iso-date';
 import { Field, ID, InputType, ObjectType } from 'type-graphql';
 import {
     BeforeInsert,
@@ -23,8 +24,8 @@ export class Product {
     @Column()
     name: string;
 
-    @Field()
-    @Column()
+    @Field(type => GraphQLDateTime)
+    @Column({ type: 'datetime' })
     created: Date;
 
     @Field(type => User, { nullable: true })

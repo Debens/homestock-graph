@@ -1,6 +1,6 @@
 import InjectionContainer from 'typedi';
 
-import { Credential } from '../../entity/Credentials';
+import { Credentials } from '../../entity/Credentials';
 import { CredentialsBuilder } from './CredentialsBuilder';
 
 describe('CredentialsBuilder', () => {
@@ -16,13 +16,13 @@ describe('CredentialsBuilder', () => {
     });
 
     describe('when calling create', () => {
-        let result: Credential;
+        let result: Credentials;
         beforeEach(() => {
             result = builder.create();
         });
 
         it('then should return a Credentials', () => {
-            expect(result).toBeInstanceOf(Credential);
+            expect(result).toBeInstanceOf(Credentials);
         });
     });
 
@@ -38,17 +38,17 @@ describe('CredentialsBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: Credential;
+            let credentials: Credentials;
             beforeEach(() => {
-                result = builder.create();
+                credentials = builder.create();
             });
 
             it('then should return a Credentials', () => {
-                expect(result).toBeInstanceOf(Credential);
+                expect(credentials).toBeInstanceOf(Credentials);
             });
 
-            it('then should set the Credentialss password', () => {
-                expect(result.password).toBe(password);
+            it('then should set the Credentials password', () => {
+                expect(credentials.password).toBe(password);
             });
         });
     });

@@ -9,12 +9,12 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { createSalt, hashPassword } from '../service/password';
+import { createSalt, hashPassword } from '../utils/password';
 import { User } from './User';
 
 @ObjectType()
 @Entity()
-export class Credential {
+export class Credentials {
     @Field(type => ID)
     @PrimaryGeneratedColumn()
     id: string;

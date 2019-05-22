@@ -1,7 +1,6 @@
 import InjectionContainer from 'typedi';
 
 import { Container } from '../../entity/Container';
-import { Credential } from '../../entity/Credentials';
 import { Product } from '../../entity/Product';
 import { Stock } from '../../entity/Stock';
 import { StockBuilder } from './StockBuilder';
@@ -39,17 +38,17 @@ describe('StockBuilder', () => {
             });
 
             describe('and calling create', () => {
-                let result: Stock;
+                let stock: Stock;
                 beforeEach(() => {
-                    result = builder.create();
+                    stock = builder.create();
                 });
 
                 it('then should return a Stock', () => {
-                    expect(result).toBeInstanceOf(Stock);
+                    expect(stock).toBeInstanceOf(Stock);
                 });
 
                 it('then should default the Stocks quantity to 1', () => {
-                    expect(result.quantity).toBe(1);
+                    expect(stock.quantity).toBe(1);
                 });
             });
         });
@@ -66,17 +65,17 @@ describe('StockBuilder', () => {
             });
 
             describe('and calling create', () => {
-                let result: Stock;
+                let stock: Stock;
                 beforeEach(() => {
-                    result = builder.create();
+                    stock = builder.create();
                 });
 
                 it('then should return a Stock', () => {
-                    expect(result).toBeInstanceOf(Stock);
+                    expect(stock).toBeInstanceOf(Stock);
                 });
 
                 it('then should set the Stocks quantity', () => {
-                    expect(result.quantity).toBe(quantity);
+                    expect(stock.quantity).toBe(quantity);
                 });
             });
         });
@@ -95,17 +94,17 @@ describe('StockBuilder', () => {
             });
 
             describe('and calling create', () => {
-                let result: Stock;
+                let stock: Stock;
                 beforeEach(() => {
-                    result = builder.create();
+                    stock = builder.create();
                 });
 
                 it('then should return a Stock', () => {
-                    expect(result).toBeInstanceOf(Stock);
+                    expect(stock).toBeInstanceOf(Stock);
                 });
 
                 it('then should set the Stocks expiry', () => {
-                    expect(result.expiry).toEqual(new Date(expiry));
+                    expect(stock.expiry).toEqual(new Date(expiry));
                 });
             });
         });
@@ -122,17 +121,17 @@ describe('StockBuilder', () => {
             });
 
             describe('and calling create', () => {
-                let result: Stock;
+                let stock: Stock;
                 beforeEach(() => {
-                    result = builder.create();
+                    stock = builder.create();
                 });
 
                 it('then should return a Stock', () => {
-                    expect(result).toBeInstanceOf(Stock);
+                    expect(stock).toBeInstanceOf(Stock);
                 });
 
                 it('then should set the Stocks expiry', () => {
-                    expect(result.expiry).toBe(expiry);
+                    expect(stock.expiry).toBe(expiry);
                 });
             });
         });
@@ -148,17 +147,17 @@ describe('StockBuilder', () => {
             });
 
             describe('and calling create', () => {
-                let result: Stock;
+                let stock: Stock;
                 beforeEach(() => {
-                    result = builder.create();
+                    stock = builder.create();
                 });
 
                 it('then should return a Stock', () => {
-                    expect(result).toBeInstanceOf(Stock);
+                    expect(stock).toBeInstanceOf(Stock);
                 });
 
                 it('then should not set the Stocks expiry', () => {
-                    expect(result.expiry).toBeUndefined();
+                    expect(stock.expiry).toBeUndefined();
                 });
             });
         });
@@ -176,17 +175,17 @@ describe('StockBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: Stock;
+            let stock: Stock;
             beforeEach(() => {
-                result = builder.create();
+                stock = builder.create();
             });
 
             it('then should return a Stock', () => {
-                expect(result).toBeInstanceOf(Stock);
+                expect(stock).toBeInstanceOf(Stock);
             });
 
             it('then should set the Stocks product type', () => {
-                expect(result.product).toBe(product);
+                expect(stock.product).toBe(product);
             });
         });
     });
@@ -203,17 +202,17 @@ describe('StockBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: Stock;
+            let stock: Stock;
             beforeEach(() => {
-                result = builder.create();
+                stock = builder.create();
             });
 
             it('then should return a Stock', () => {
-                expect(result).toBeInstanceOf(Stock);
+                expect(stock).toBeInstanceOf(Stock);
             });
 
             it('then should set the Stocks container', () => {
-                expect(result.container).toBe(container);
+                expect(stock.container).toBe(container);
             });
         });
     });

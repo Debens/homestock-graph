@@ -1,3 +1,4 @@
+import { GraphQLDate } from 'graphql-iso-date';
 // tslint:disable:max-classes-per-file
 import { ArgsType, Field, InputType } from 'type-graphql';
 
@@ -17,7 +18,7 @@ export class UserQuery implements Partial<User> {
     @Field({ nullable: true })
     email: string;
 
-    @Field({ nullable: true })
+    @Field(type => GraphQLDate, { nullable: true })
     birthday: Date;
 }
 
@@ -32,7 +33,7 @@ export class NewUser implements Partial<User> {
     @Field()
     email: string;
 
-    @Field()
+    @Field(type => GraphQLDate)
     birthday: Date;
 
     @Field()

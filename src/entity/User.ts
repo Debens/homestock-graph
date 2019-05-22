@@ -1,4 +1,4 @@
-import { GraphQLDate } from 'graphql-iso-date';
+import { GraphQLDate, GraphQLDateTime } from 'graphql-iso-date';
 import { Field, ID, ObjectType } from 'type-graphql';
 import {
     BeforeInsert,
@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import uuid from 'uuid/v1';
 
-import { Credential } from './Credentials';
+import { Credentials } from './Credentials';
 import { Membership } from './Membership';
 import { UserRole } from './model/authorization';
 import { Product } from './Product';
@@ -23,8 +23,8 @@ export class User {
     @PrimaryColumn()
     id: string;
 
-    @Field()
-    @Column()
+    @Field(type => GraphQLDateTime)
+    @Column({ type: 'datetime' })
     created: Date;
 
     @Field()
@@ -55,12 +55,12 @@ export class User {
     @OneToMany(type => Product, rel => rel.creator)
     products: Product[];
 
-    @Field(type => Credential)
-    @OneToOne(type => Credential, credential => credential.user, {
+    @Field(type => Credentials)
+    @OneToOne(type => Credentials, credential => credential.user, {
         cascade: true,
         nullable: false,
     })
-    credentials: Credential;
+    credentials: Credentials;
 
     @Field(type => [Session])
     @OneToMany(type => Session, session => session.user, {

@@ -1,6 +1,6 @@
 import Container from 'typedi';
 
-import { Credential } from '../../entity/Credentials';
+import { Credentials } from '../../entity/Credentials';
 import { UserRole } from '../../entity/model/authorization';
 import { User } from '../../entity/User';
 import { UserBuilder } from './UserBuilder';
@@ -16,17 +16,17 @@ describe('UserBuilder', () => {
     });
 
     describe('when calling create', () => {
-        let result: User;
+        let user: User;
         beforeEach(() => {
-            result = builder.create();
+            user = builder.create();
         });
 
         it('then should return a user', () => {
-            expect(result).toBeInstanceOf(User);
+            expect(user).toBeInstanceOf(User);
         });
 
         it('then should set the users role to a free account', () => {
-            expect(result.role).toBe(UserRole.Free);
+            expect(user.role).toBe(UserRole.Free);
         });
     });
 
@@ -42,17 +42,17 @@ describe('UserBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: User;
+            let user: User;
             beforeEach(() => {
-                result = builder.create();
+                user = builder.create();
             });
 
             it('then should return a user', () => {
-                expect(result).toBeInstanceOf(User);
+                expect(user).toBeInstanceOf(User);
             });
 
             it('then should set the users first name', () => {
-                expect(result.firstName).toBe(firstName);
+                expect(user.firstName).toBe(firstName);
             });
         });
     });
@@ -69,17 +69,17 @@ describe('UserBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: User;
+            let user: User;
             beforeEach(() => {
-                result = builder.create();
+                user = builder.create();
             });
 
             it('then should return a user', () => {
-                expect(result).toBeInstanceOf(User);
+                expect(user).toBeInstanceOf(User);
             });
 
             it('then should set the users last name', () => {
-                expect(result.lastName).toBe(lastName);
+                expect(user.lastName).toBe(lastName);
             });
         });
     });
@@ -96,17 +96,17 @@ describe('UserBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: User;
+            let user: User;
             beforeEach(() => {
-                result = builder.create();
+                user = builder.create();
             });
 
             it('then should return a user', () => {
-                expect(result).toBeInstanceOf(User);
+                expect(user).toBeInstanceOf(User);
             });
 
             it('then should set the users email address', () => {
-                expect(result.email).toBe(email);
+                expect(user.email).toBe(email);
             });
         });
     });
@@ -123,17 +123,17 @@ describe('UserBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: User;
+            let user: User;
             beforeEach(() => {
-                result = builder.create();
+                user = builder.create();
             });
 
             it('then should return a user', () => {
-                expect(result).toBeInstanceOf(User);
+                expect(user).toBeInstanceOf(User);
             });
 
             it('then should set the users birthday', () => {
-                expect(result.birthday).toBe(birthday);
+                expect(user.birthday).toBe(birthday);
             });
         });
     });
@@ -150,21 +150,21 @@ describe('UserBuilder', () => {
         });
 
         describe('and calling create', () => {
-            let result: User;
+            let user: User;
             beforeEach(() => {
-                result = builder.create();
+                user = builder.create();
             });
 
             it('then should return a user', () => {
-                expect(result).toBeInstanceOf(User);
+                expect(user).toBeInstanceOf(User);
             });
 
             it('then should create an credentials context for the user', () => {
-                expect(result.credentials).toBeInstanceOf(Credential);
+                expect(user.credentials).toBeInstanceOf(Credentials);
             });
 
             it('then should attach the password to the credentials context', () => {
-                expect(result.credentials.password).toBe(password);
+                expect(user.credentials.password).toBe(password);
             });
         });
     });

@@ -1,6 +1,7 @@
 import Container from 'typedi';
 
 import { mockEnvironment } from '../../test/mock-env';
+import { Session } from '../entity/Session';
 import { User } from '../entity/User';
 import { TokenService } from './TokenService';
 
@@ -18,11 +19,13 @@ describe('TokenService', () => {
 
     describe('when creating tokens for a user', () => {
         const user = new User();
+        const session = new Session();
+        session.expiry = new Date();
 
-        const tokens = service.tokens(user);
+        const tokens = service.tokens(session, user);
 
-        it('then should get the expiry from the environment', () => {
-            expect(tokens.expiresIn).toEqual(process.env.TOKEN_ACCESS_EXPIRES_IN);
+        it('then should get the expiry from the session', () => {
+            expect(tokens.expiresIn).toEqual(session.expiry.getSeconds());
         });
 
         describe('when decoding tokens', () => {
@@ -33,8 +36,8 @@ describe('TokenService', () => {
                     expect(claims.jti).toBeDefined();
                 });
 
-                it('then should be tied to the user', () => {
-                    expect(claims.sub).toBe(user.id);
+                it('then should be tied to the session', () => {
+                    expect(claims.sub).toBe(session.id);
                 });
 
                 it('then should have the correct token type', () => {
@@ -44,14 +47,13 @@ describe('TokenService', () => {
 
             describe('refresh_token', () => {
                 const claims = service.verify(tokens.refreshToken);
-                const accessClaims = service.verify(tokens.accessToken);
 
                 it('then should have a id', () => {
                     expect(claims.jti).toBeDefined();
                 });
 
-                it('then should be tied to the access token', () => {
-                    expect(claims.sub).toBe(accessClaims.jti);
+                it('then should be tied to the session', () => {
+                    expect(claims.sub).toBe(session.id);
                 });
 
                 it('then should have the correct token type', () => {

@@ -30,6 +30,6 @@
             "options": ["ban-keywords", "check-format", "allow-pascal-case"]
         },
         "no-identical-functions": true,
-        "no-big-function": true
+        "no-big-function": false // FIXME: jest methods
     }
 }

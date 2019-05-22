@@ -1,12 +1,12 @@
 import { Service } from 'typedi';
 
-import { Credential } from '../../entity/Credentials';
+import { Credentials } from '../../entity/Credentials';
 
 @Service()
 export class CredentialsBuilder {
-    constructor(private readonly auth: Credential = new Credential()) {}
+    constructor(private readonly auth: Credentials = new Credentials()) {}
 
-    create(): Credential {
+    create(): Credentials {
         return this.auth;
     }
 

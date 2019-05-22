@@ -1,3 +1,4 @@
+import { GraphQLDateTime } from 'graphql-iso-date';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { BeforeInsert, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -24,8 +25,8 @@ export class Membership {
     })
     container: Container;
 
-    @Field()
-    @Column()
+    @Field(type => GraphQLDateTime)
+    @Column({ type: 'datetime' })
     created: Date;
 
     @Field(type => MembershipRole)

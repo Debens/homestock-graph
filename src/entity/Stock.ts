@@ -1,3 +1,4 @@
+import { GraphQLDateTime } from 'graphql-iso-date';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { BeforeInsert, Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import uuid from 'uuid/v1';
@@ -12,15 +13,15 @@ export class Stock {
     @PrimaryColumn()
     id: string;
 
-    @Field()
-    @Column()
+    @Field(type => GraphQLDateTime)
+    @Column({ type: 'datetime' })
     created: Date;
 
     @Field()
     @Column({ default: 1 })
     quantity: number;
 
-    @Field()
+    @Field(type => GraphQLDateTime)
     @Column({ nullable: true })
     expiry: Date;
 

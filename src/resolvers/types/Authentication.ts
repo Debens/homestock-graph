@@ -19,5 +19,5 @@ export class Tokens {
     refreshToken: string;
 
     @Field()
-    expiresIn: string;
+    expiresIn: number;
 }

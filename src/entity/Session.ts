@@ -1,32 +1,30 @@
-import { GraphQLDate } from 'graphql-iso-date';
+import { GraphQLDateTime } from 'graphql-iso-date';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Inject } from 'typedi';
 import {
     BeforeInsert,
     Column,
     Entity,
     JoinColumn,
     OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
+    PrimaryColumn,
 } from 'typeorm';
+import uuid from 'uuid/v1';
 
-import { createSalt, hashPassword } from '../service/password';
 import { User } from './User';
 
 @ObjectType()
 @Entity()
 export class Session {
     @Field(type => ID)
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     id: string;
 
-    @Field(type => GraphQLDate)
-    @Column({ type: 'date' })
+    @Field(type => GraphQLDateTime)
+    @Column({ type: 'datetime' })
     created: Date;
 
-    @Field(type => GraphQLDate)
-    @Column({ type: 'date' })
+    @Field(type => GraphQLDateTime)
+    @Column({ type: 'datetime' })
     expiry: Date;
 
     @Field(type => User)
@@ -39,6 +37,7 @@ export class Session {
 
     @BeforeInsert()
     hashPassword() {
+        this.id = uuid();
         this.created = new Date();
     }
 }

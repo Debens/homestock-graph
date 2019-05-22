@@ -2,8 +2,10 @@ import jwt from 'jsonwebtoken';
 import { Service } from 'typedi';
 import uuid from 'uuid/v1';
 
+import { Session } from '../entity/Session';
 import { User } from '../entity/User';
 import { Tokens } from '../resolvers/types/Authentication';
+import { getTokenExpiry } from '../utils/tokens';
 
 export interface IClaims {
     [c: string]: string;
@@ -13,12 +15,11 @@ export interface IClaims {
 export class TokenService {
     static readonly HANDLE = 'token.service';
 
-    tokens(user: User): Tokens {
-        const accessTokenId = uuid();
+    tokens(session: Session, user: User): Tokens {
         return {
-            accessToken: this.accessToken(user, accessTokenId),
-            expiresIn: process.env.TOKEN_ACCESS_EXPIRES_IN,
-            refreshToken: this.refreshToken(accessTokenId),
+            accessToken: this.accessToken(session, user),
+            expiresIn: session.expiry.getSeconds(),
+            refreshToken: this.refreshToken(session),
         };
     }
 
@@ -32,25 +33,25 @@ export class TokenService {
         });
     }
 
-    private accessToken(user: User, accessTokenId: string) {
+    private accessToken(session: Session, user: User) {
         return this.sign(
             {
                 account_type: user.role,
                 email: user.email,
                 first_name: user.firstName,
                 last_name: user.lastName,
-                sub: user.id,
+                sub: session.id,
                 token_type: 'access_token',
+                user: user.id,
             },
             process.env.TOKEN_ACCESS_EXPIRES_IN,
-            accessTokenId,
         );
     }
 
-    private refreshToken(accessTokenId: string) {
+    private refreshToken(session: Session) {
         return this.sign(
             {
-                sub: accessTokenId,
+                sub: session.id,
                 token_type: 'refresh_token',
             },
             process.env.TOKEN_ACCESS_EXPIRES_IN,
